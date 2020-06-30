@@ -24,11 +24,16 @@ public class PlayerCombat : MonoBehaviour
     public bool isAttacking = false;
     public bool isReset = false;
 
+    //camera
+    public CameraShake cameraShake;
+    public float magnitude = 0.05f;
+    public float duration = 0.05f;
     //Misc
     public int attackCount = 0;
     private Animator animator;
     private PlayerMovement pm;
 
+  
     private void Start()
     {
         attackHitBox.SetActive(false);
@@ -48,6 +53,7 @@ public class PlayerCombat : MonoBehaviour
 
             isAttacking = true;
             StartCoroutine(Attack());
+           
         }
         else if (Input.GetButtonDown("Fire2") && !isAttacking && pm.groundCheck)
         {
@@ -57,6 +63,7 @@ public class PlayerCombat : MonoBehaviour
             isAttacking = true;
             attackCount = 2;
             StartCoroutine(Attack());
+            
         }
     }
 
@@ -83,7 +90,7 @@ public class PlayerCombat : MonoBehaviour
             attackHitBox.SetActive(true);
             yield return new WaitForSeconds(attackActive);
             attackHitBox.SetActive(false);
-
+            StartCoroutine(cameraShake.Shake(duration, magnitude));
             yield return new WaitForSeconds(attackSpeed);
         }
         else
@@ -92,10 +99,10 @@ public class PlayerCombat : MonoBehaviour
             attackCount = 0;
             yield return new WaitForSeconds(attackActive);
             kickHitbox.SetActive(false);
-
+            StartCoroutine(cameraShake.Shake(duration, magnitude));
             yield return new WaitForSeconds(kickSpeed);
         }
-
+        
         //Resetting
         isAttacking = false;
         pm.canMove = true;
