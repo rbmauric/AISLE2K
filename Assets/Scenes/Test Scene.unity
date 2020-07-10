@@ -1420,6 +1420,8 @@ MonoBehaviour:
   isAttacking: 0
   isReset: 0
   cameraShake: {fileID: 519420033}
+  magnitude: 0.05
+  duration: 0.05
   attackCount: 0
 --- !u!1 &1631363913
 GameObject:
