@@ -99,7 +99,7 @@ public class PlayerCombat : MonoBehaviour
             attackCount = 0;
             yield return new WaitForSeconds(attackActive);
             kickHitbox.SetActive(false);
-            StartCoroutine(cameraShake.Shake(duration, magnitude));
+            StartCoroutine(cameraShake.Shake(duration, 5 * magnitude));
             yield return new WaitForSeconds(kickSpeed);
         }
         
