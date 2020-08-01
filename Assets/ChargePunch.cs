@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class ChargePunch : MonoBehaviour
 {
+    [SerializeField] private CameraShake cs;
+    
     float heldTime = 0f;
     float chargeStart = 0.1f;
     float chargeDiff = 0.15f;
@@ -54,7 +56,9 @@ public class ChargePunch : MonoBehaviour
                 //Debug.Log("Regular Attack");
             }
             //If held
-            else if (heldTime <= (maxCharge + chargeDiff) && heldTime >= (maxCharge - chargeDiff)) {
+            else if (heldTime <= (maxCharge + chargeDiff) && heldTime >= (maxCharge - chargeDiff)) 
+            {
+                StartCoroutine(ChargeAttack());
                 Debug.Log("CRITICAL HIT");
             }
             //If held, but past charge time
@@ -65,7 +69,7 @@ public class ChargePunch : MonoBehaviour
 
             heldTime = 0;
             anim.SetTrigger("Attack");
-            StartCoroutine(ChargeAttack());
+            StartCoroutine(Attack());
         } 
     }
 
@@ -81,6 +85,15 @@ public class ChargePunch : MonoBehaviour
     }
 
     IEnumerator ChargeAttack()
+    {
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(cs.Shake(0.2f, 0.7f));
+
+        yield return new WaitForSeconds(0.7f);
+        attacking = false;
+    }
+
+    IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.7f);
         attacking = false;
